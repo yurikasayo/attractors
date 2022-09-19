@@ -15,13 +15,14 @@ export class MyApp {
         this.attractor = new Attractor(this.renderer, 300000, 20);
         this.display = new Display(this.renderer, this.canvas.width, this.canvas.height);
 
-        this.mouse = {x: 0, y: 0, dx: 0, dy: 0, down: false, dist: null};
+        this.mouse = {x: null, y: null, dx: 0, dy: 0, down: false, dist: null};
         window.addEventListener('resize', this.resize.bind(this));
         this.canvas.addEventListener('mousemove', e => this.mousemove(e));
         this.canvas.addEventListener('mousedown', this.mousedown.bind(this));
         this.canvas.addEventListener('mouseup', this.mouseup.bind(this));
         this.canvas.addEventListener('wheel', this.mousewheel.bind(this));
         this.canvas.addEventListener('touchmove', e => this.touchmove(e));
+        this.canvas.addEventListener('touchend', this.touchend.bind(this));
 
         this.setGui();
         if (this.debug) {
@@ -84,31 +85,39 @@ export class MyApp {
             const x = touches[0].pageX;
             const y = window.innerHeight - touches[0].pageY;
             
-            this.mouse.dx = x - this.mouse.x;
-            this.mouse.dy = y - this.mouse.y;
-            this.mouse.x = x;
-            this.mouse.y = y;
-
-            this.display.rotation.dtheta = -Math.PI * this.mouse.dx / window.innerWidth;
-            this.display.rotation.dphi = Math.PI * this.mouse.dy / window.innerHeight;
-
-            this.mouse.dist = null;
+            if (this.mouse.x) {
+                this.mouse.dx = x - this.mouse.x;
+                this.mouse.dy = y - this.mouse.y;
+                this.mouse.x = x;
+                this.mouse.y = y;
+    
+                this.display.rotation.dtheta = -Math.PI * this.mouse.dx / window.innerWidth;
+                this.display.rotation.dphi = Math.PI * this.mouse.dy / window.innerHeight;
+            } else {
+                this.mouse.x = x;
+                this.mouse.y = y;
+            }
         } else if (touches.length == 2) {
             const x1 = touches[0].pageX;
             const y1 = window.innerHeight - touches[0].pageY;
             const x2 = touches[1].pageX;
             const y2 = window.innerHeight - touches[1].pageY;
             const dist = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+            
             if (this.mouse.dist) {
-                this.display.radius += (dist - this.mouse.dist) * 0.01;
+                this.display.radius += (this.mouse.dist - dist) * 0.02;
                 this.display.radius = Math.min(Math.max(5, this.display.radius), 50);
                 this.mouse.dist = dist;
             } else {
                 this.mouse.dist = dist;
             }
-        } else {
-            this.mouse.dist = null;
         }
+    }
+
+    touchend() {
+        this.mouse.x = null;
+        this.mouse.y = null;
+        this.mouse.dist = null;
     }
 
     loop() {

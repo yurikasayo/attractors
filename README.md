@@ -1,4 +1,4 @@
-# Attractors
+# Strange Attractors
 
 demo:
 https://yurikasayo.github.io/attractors/

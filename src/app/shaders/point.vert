@@ -9,5 +9,5 @@ uniform mat4 projectionMatrix;
 void main() {
     vec4 mvPosition = viewMatrix * modelMatrix * vec4(position, 1.0);
     gl_Position = projectionMatrix * mvPosition;
-    gl_PointSize = 500.0 / pow(-mvPosition.z, 3.0);
+    gl_PointSize = max(1.0, 1000.0 / pow(-mvPosition.z, 3.0));
 }
