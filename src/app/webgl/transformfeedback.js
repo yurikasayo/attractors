@@ -23,6 +23,11 @@ export class TransformFeedback {
         return { points, tf };
     }
 
+    resetPoints(positions) {
+        this.tf[0].points.setPosition(positions);
+        this.tf[1].points.setPosition(positions);
+    }
+
     render() {
         this.renderer.render({
             tf: this.tf[this.tfId].tf

@@ -8,4 +8,8 @@ export class Points extends Geometry {
 
         this.indexLength = position.length / 3;
     }
+
+    setPosition(position) {
+        this.setVertexBuffer('position', position, true);
+    }
 }

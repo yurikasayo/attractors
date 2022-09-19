@@ -12,7 +12,7 @@ export class MyApp {
         this.setSize();
 
         this.renderer = new Renderer(canvas);
-        this.attractor = new Attractor(this.renderer, 300000, 10);
+        this.attractor = new Attractor(this.renderer, 300000, 20);
         this.display = new Display(this.renderer, this.canvas.width, this.canvas.height);
 
         this.mouse = {x: 0, y: 0, dx: 0, dy: 0, down: false};
@@ -108,8 +108,13 @@ export class MyApp {
 
     setGui() {
         this.gui = new GUI();
-        this.gui.add(this.attractor.param, "dt").min(0.001).max(0.1).step(0.001);
-        this.gui.add(this.attractor.param, "b").min(0.1).max(0.3).step(0.001);
+        this.gui.add(this.attractor.param, "mode", { thomas: 0, lorenz: 1, dadras: 2, halvorsen: 3, arneodo: 4 });
+        this.gui.add(this.attractor.param, "dt").min(0).max(1).step(0.01);
+        this.gui.add(this.attractor.param, "param1").min(0).max(1).step(0.01);
+        this.gui.add(this.attractor.param, "param2").min(0).max(1).step(0.01);
+        this.gui.add(this.attractor.param, "param3").min(0).max(1).step(0.01);
+        this.gui.add(this.attractor.param, "param4").min(0).max(1).step(0.01);
+        this.gui.add(this.attractor.param, "param5").min(0).max(1).step(0.01);
         this.gui.add(this.attractor.param, "reset");
     }
 

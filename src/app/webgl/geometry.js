@@ -20,6 +20,14 @@ export class Geometry {
         this.vbos[name] = vbo;
     }
 
+    setVertexBuffer(key, list, isDynamic = false) {
+        const gl = this.gl;
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.vbos[key]);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(list), isDynamic ? gl.DYNAMIC_DRAW : gl.STATIC_DRAW);
+        gl.bindBuffer(gl.ARRAY_BUFFER, null);
+    }
+
     createIndexBuffer(list) {
         const gl = this.gl;
 
