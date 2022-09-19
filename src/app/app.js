@@ -15,7 +15,7 @@ export class MyApp {
         this.attractor = new Attractor(this.renderer, 300000, 20);
         this.display = new Display(this.renderer, this.canvas.width, this.canvas.height);
 
-        this.mouse = {x: 0, y: 0, dx: 0, dy: 0, down: false};
+        this.mouse = {x: 0, y: 0, dx: 0, dy: 0, down: false, dist: null};
         window.addEventListener('resize', this.resize.bind(this));
         this.canvas.addEventListener('mousemove', e => this.mousemove(e));
         this.canvas.addEventListener('mousedown', this.mousedown.bind(this));
@@ -91,6 +91,23 @@ export class MyApp {
 
             this.display.rotation.dtheta = -Math.PI * this.mouse.dx / window.innerWidth;
             this.display.rotation.dphi = Math.PI * this.mouse.dy / window.innerHeight;
+
+            this.mouse.dist = null;
+        } else if (touches.length == 2) {
+            const x1 = touches[0].pageX;
+            const y1 = window.innerHeight - touches[0].pageY;
+            const x2 = touches[1].pageX;
+            const y2 = window.innerHeight - touches[1].pageY;
+            const dist = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+            if (this.mouse.dist) {
+                this.display.radius += (dist - this.mouse.dist) * 0.01;
+                this.display.radius = Math.min(Math.max(5, this.display.radius), 50);
+                this.mouse.dist = dist;
+            } else {
+                this.mouse.dist = dist;
+            }
+        } else {
+            this.mouse.dist = null;
         }
     }
 
