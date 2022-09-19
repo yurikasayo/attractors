@@ -18,7 +18,7 @@ export class Display {
 
         this.camera = new Camera();
         this.camera.setRadius(10);
-        this.camera.perspective(Math.PI / 4, width / height, 0.001, 200);
+        this.camera.perspective(Math.PI / 4, width / height, 0.001, 500);
 
         this.radius = 10;
         this.rotation = {dtheta: 0, dphi: 0, decay: 0.95};
