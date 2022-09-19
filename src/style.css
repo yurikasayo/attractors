@@ -1,0 +1,22 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+html,
+body
+{
+    overflow: hidden;
+    background-color: black;
+}
+
+.webgl
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    -webkit-transform: translateY(-50%) translateX(-50%);
+}
